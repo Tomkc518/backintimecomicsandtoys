@@ -1,6 +1,26 @@
 {
   "slices": {
-    "Banner": {}
+    "Banner": {
+      "default-slice": {
+        "primary": {
+          "logo": {
+            "content": "https://images.unsplash.com/photo-1585399000684-d2f72660f092"
+          },
+          "title": {
+            "config": {
+              "patternType": "HEADING",
+              "blocks": 1
+            }
+          },
+          "storeHours": {
+            "config": {
+              "patternType": "PARAGRAPH",
+              "blocks": 1
+            }
+          }
+        }
+      }
+    }
   },
   "_cts": {
     "page": {}

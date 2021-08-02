@@ -13,8 +13,11 @@
       "primary": {
         "logo": {
           "config": {
-            "label": "",
-            "constraint": {},
+            "label": "Logo",
+            "constraint": {
+              "width": 500,
+              "height": 354
+            },
             "thumbnails": []
           },
           "type": "Image"
@@ -38,7 +41,7 @@
         },
         "storeHours": {
           "config": {
-            "label": "",
+            "label": "Store Hours",
             "placeholder": "",
             "allowTargetBlank": true,
             "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
