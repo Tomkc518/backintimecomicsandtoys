@@ -1,0 +1,57 @@
+{
+  "id": "top_products",
+  "type": "SharedSlice",
+  "name": "TopProducts",
+  "description": "TopProducts",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "TopProducts",
+      "primary": {
+        "galleryTitle": {
+          "config": {
+            "label": "Gallery Title",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          },
+          "type": "StructuredText"
+        }
+      },
+      "items": {
+        "productImage": {
+          "config": {
+            "label": "ProductImage",
+            "constraint": {
+              "width": 250,
+              "height": 250
+            },
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "productDescription": {
+          "config": {
+            "label": "Product Description",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          },
+          "type": "StructuredText"
+        },
+        "productLink": {
+          "config": {
+            "label": "Product Link",
+            "placeholder": "",
+            "select": "web",
+            "allowTargetBlank": false
+          },
+          "type": "Link"
+        }
+      }
+    }
+  ]
+}

@@ -18,7 +18,9 @@ export const getStaticProps = useGetStaticProps({
   client: Client(),
   apiParams: {
     uid: 'home'
-  }
+  },
+  type: 'home',
+  queryType: 'single'
 });
 
 export default Home;

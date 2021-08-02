@@ -20,6 +20,29 @@
           }
         }
       }
+    },
+    "TopProducts": {
+      "default-slice": {
+        "primary": {
+          "galleryTitle": {
+            "config": {
+              "patternType": "PARAGRAPH",
+              "blocks": 1
+            }
+          }
+        },
+        "items": {
+          "productImage": {
+            "content": "https://images.unsplash.com/photo-1589652717521-10c0d092dea9"
+          },
+          "productDescription": {
+            "config": {
+              "patternType": "PARAGRAPH",
+              "blocks": 1
+            }
+          }
+        }
+      }
     }
   },
   "_cts": {
