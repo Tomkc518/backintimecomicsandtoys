@@ -2,6 +2,7 @@
   "id": "page",
   "label": "Page",
   "repeatable": true,
+  "status": true,
   "json": {
     "Page": {
       "uid": {
@@ -13,26 +14,10 @@
       },
       "slices": {
         "type": "Slices",
-        "fieldset": "Slice zone",
+        "fieldset": "Slice Zone",
         "config": {
-          "labels": {},
           "choices": {
-            "banner_slice": {
-              "type": "SharedSlice"
-            },
-            "featured_image": {
-              "type": "SharedSlice"
-            },
-            "full_width_image": {
-              "type": "SharedSlice"
-            },
-            "text_slice": {
-              "type": "SharedSlice"
-            },
-            "quote_slice": {
-              "type": "SharedSlice"
-            },
-            "image_gallery": {
+            "banner": {
               "type": "SharedSlice"
             }
           }
@@ -83,6 +68,5 @@
         }
       }
     }
-  },
-  "status": true
+  }
 }
