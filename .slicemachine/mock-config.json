@@ -23,6 +23,14 @@
     }
   },
   "_cts": {
-    "page": {}
+    "page": {},
+    "menu": {
+      "title": {
+        "config": {
+          "patternType": "HEADING",
+          "blocks": 1
+        }
+      }
+    }
   }
 }

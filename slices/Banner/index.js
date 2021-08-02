@@ -10,11 +10,11 @@ const Banner = ({ slice }) => (
       <span className="title">
         <RichText render={slice.primary.title} />
       </span>
-      <span className="storeHours">
-        <RichText render={slice.primary.storeHours} />
-      </span>
       <span className="description">
         <RichText render={slice.primary.description} />
+      </span>
+      <span className="storeHours">
+        <RichText render={slice.primary.storeHours} />
       </span>
     </div>
     <style jsx>{`

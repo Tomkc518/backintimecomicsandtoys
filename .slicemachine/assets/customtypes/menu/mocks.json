@@ -1,0 +1,55 @@
+{
+  "id": "e39b46bd-7af6-43f7-9712-413f7a8b6741",
+  "uid": "voluptatum-deserunt-dolores",
+  "type": "menu",
+  "data": {
+    "title": [
+      {
+        "type": "heading1",
+        "text": "Benchmark web-enabled action-items",
+        "spans": []
+      }
+    ],
+    "menu_links": [
+      {
+        "label": [
+          {
+            "type": "paragraph",
+            "text": "Mollit officia voluptate culpa magna aliquip velit aliquip ea sint anim. Cupidatat elit amet commodo cupidatat duis et. Dolore do eiusmod enim sunt.",
+            "spans": []
+          }
+        ],
+        "link": {
+          "link_type": "Web",
+          "url": "http://twitter.com"
+        }
+      },
+      {
+        "label": [
+          {
+            "type": "paragraph",
+            "text": "Aute voluptate nostrud aliquip fugiat in magna anim exercitation sint proident officia et magna. Est exercitation aute laboris tempor aute labore officia minim nostrud adipisicing.",
+            "spans": []
+          }
+        ],
+        "link": {
+          "link_type": "Web",
+          "url": "https://slicemachine.dev"
+        }
+      },
+      {
+        "label": [
+          {
+            "type": "paragraph",
+            "text": "Excepteur nulla ullamco est nulla laborum id exercitation consectetur ad aute.",
+            "spans": []
+          }
+        ],
+        "link": {
+          "link_type": "Web",
+          "url": "http://google.com"
+        }
+      }
+    ]
+  }
+}
