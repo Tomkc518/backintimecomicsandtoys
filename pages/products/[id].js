@@ -1,13 +1,13 @@
-import { useRouter } from 'next/router'
 import { server } from '../../config/index'
+import Layout from '../../components/layout'
 
-const product = ({ product }) => {
+const product = (props) => {
     return (
-        <>
-            <h1>{product.name}</h1>
-            <p>{product.description}</p>
-            <p>{product.price}</p>
-        </>
+        <Layout menu={props.menu}>
+            <h1>{props.product.name}</h1>
+            <p>{props.product.description}</p>
+            <p>${props.product.price}</p>
+        </Layout>
     )
 }
 

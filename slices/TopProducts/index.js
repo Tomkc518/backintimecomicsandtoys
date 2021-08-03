@@ -6,8 +6,8 @@ const TopProducts = ({ slice }) => (
     <RichText render={slice.primary.galleryTitle} />
     <div className="gallery">
       {slice?.items?.map((item, i) =>
-        <a href={Link.url(item.link)}>
-          <div key={i} className="gallery-item">
+        <a key={i} href={Link.url(item.link)}>
+          <div className="gallery-item">
             <img
               src={item.image.url}
               alt={item.image.alt}
