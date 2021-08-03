@@ -1,19 +1,45 @@
 {
-  "id": "top_products",
+  "id": "product",
   "type": "SharedSlice",
-  "name": "TopProducts",
-  "description": "TopProducts",
+  "name": "Product",
+  "description": "Product",
   "variations": [
     {
       "id": "default-slice",
       "name": "Default slice",
       "docURL": "...",
       "version": "sktwi1xtmkfgx8626",
-      "description": "TopProducts",
+      "description": "Product",
       "primary": {
-        "galleryTitle": {
+        "image": {
           "config": {
-            "label": "Gallery Title",
+            "label": "Image",
+            "constraint": {},
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "title": {
+          "config": {
+            "label": "Title",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          },
+          "type": "StructuredText"
+        },
+        "description": {
+          "config": {
+            "label": "Description",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          },
+          "type": "StructuredText"
+        },
+        "price": {
+          "config": {
+            "label": "Price",
             "placeholder": "",
             "allowTargetBlank": true,
             "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
@@ -21,37 +47,7 @@
           "type": "StructuredText"
         }
       },
-      "items": {
-        "image": {
-          "config": {
-            "label": "ProductImage",
-            "constraint": {
-              "width": 250,
-              "height": 250
-            },
-            "thumbnails": []
-          },
-          "type": "Image"
-        },
-        "description": {
-          "config": {
-            "label": "Product Description",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-          },
-          "type": "StructuredText"
-        },
-        "link": {
-          "config": {
-            "label": "Product Link",
-            "placeholder": "",
-            "select": "web",
-            "allowTargetBlank": false
-          },
-          "type": "Link"
-        }
-      }
+      "items": {}
     }
   ]
 }

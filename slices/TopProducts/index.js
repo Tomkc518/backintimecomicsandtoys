@@ -9,10 +9,10 @@ const TopProducts = ({ slice }) => (
         <a href={Link.url(item.link)}>
           <div key={i} className="gallery-item">
             <img
-              src={item.productImage.url}
-              alt={item.productImage.alt}
+              src={item.image.url}
+              alt={item.image.alt}
             />
-            <RichText render={item.productDescription} />
+            <RichText render={item.description} />
           </div>
         </a>
       )}
