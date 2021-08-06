@@ -11,45 +11,21 @@
       "version": "sktwi1xtmkfgx8626",
       "description": "TopProducts",
       "primary": {
-        "galleryTitle": {
+        "title": {
+          "type": "StructuredText",
           "config": {
-            "label": "Gallery Title",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-          },
-          "type": "StructuredText"
-        }
-      },
-      "items": {
-        "image": {
-          "config": {
-            "label": "ProductImage",
-            "constraint": {
-              "width": 250,
-              "height": 250
-            },
-            "thumbnails": []
-          },
-          "type": "Image"
+            "single": "heading1",
+            "label": "Title",
+            "placeholder": "This is where it all begins..."
+          }
         },
         "description": {
+          "type": "StructuredText",
           "config": {
-            "label": "Product Description",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-          },
-          "type": "StructuredText"
-        },
-        "link": {
-          "config": {
-            "label": "Product Link",
-            "placeholder": "",
-            "select": "web",
-            "allowTargetBlank": false
-          },
-          "type": "Link"
+            "single": "paragraph",
+            "label": "Description",
+            "placeholder": "A nice description of your feature"
+          }
         }
       }
     }

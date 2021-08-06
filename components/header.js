@@ -1,8 +1,10 @@
 import React from "react";
 import { RichText } from 'prismic-reactjs'
 import { Link } from 'prismic-reactjs'
+import Cart from './cart'
 
 const Header = ({ menu = [] }) => (
+  <>
     <header className="site-header">
         <a href="/" className="logo">
             {RichText.asText(menu.data.title)}
@@ -12,11 +14,9 @@ const Header = ({ menu = [] }) => (
         .site-header {
           height: 30px;
           padding: 20px 0;
-          color: #484d52;
           font-weight: 700;
         }
         .site-header a {
-          color: #484d52;
           font-weight: 700;
         }
         .site-header a:hover {
@@ -49,6 +49,8 @@ const Header = ({ menu = [] }) => (
           }
         `}</style>
     </header>
+    <Cart />
+    </>
 );
 
 const Links = ({ menuLinks }) => {
@@ -78,7 +80,6 @@ const Links = ({ menuLinks }) => {
             margin-left: 40px;
           }
           nav li a {
-            color: #484d52;
             font-weight: 700;
           }
           nav li a:hover {

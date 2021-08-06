@@ -8,7 +8,7 @@ const Layout = ({ children, menu }) => {
             <Head>
                 <title> Back in Time Comics and Toys </title>
             </Head>
-            <Header menu={menu} />
+            <Header menu={menu}/>
             <main>{children}</main>
         </div>
     );

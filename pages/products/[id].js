@@ -1,37 +1,61 @@
-import { server } from '../../config/index'
 import Layout from '../../components/layout'
+import { client } from "../../utils/shopify";
+import Link from 'next/link'
 
-const product = (props) => {
-    return (
-        <Layout menu={props.menu}>
-            <h1>{props.product.name}</h1>
-            <p>{props.product.description}</p>
-            <p>${props.product.price}</p>
-        </Layout>
-    )
-}
 
-export const getStaticProps = async (context) => {
-    const res = await fetch(`${server}/api/products/${context.params.id}`)
-    const product = await res.json()
-
-    return {
-        props: {
-            product
-        }
+const Product = (props) => {
+  const addToCart = async () => {
+    const storage = window.localStorage;
+    let checkoutId = storage.getItem('checkoutId');
+    if (!checkoutId){
+      const checkout = await client.checkout.create();
+      checkoutId = checkout.id;
+      storage.setItem('checkoutId', checkoutId);
     }
+    const cart = await client.checkout.addLineItems(checkoutId, [
+      {
+        variantId: props.product.variants[0].id,
+        quantity: 1,
+      }
+    ]);
+    storage.setItem('cart', JSON.stringify(cart));
+  };
+  
+  return (
+    <Layout menu={props.menu}>
+        <div>
+            <div key={`${props.product.id}`}>
+                <p >{props.product.title}</p>
+                <img src={`${props.product.images[0].src}`} className="productImage"></img>
+                <p>{props.product.description}</p>
+                <button onClick={addToCart}>Add to Cart</button>
+                <div>
+                    <Link href="/products">Back</Link>
+                </div>
+            </div>
+        </div>
+        <style jsx>{`
+            .productImage {
+                max-height: 350px;
+                max-width: 350px;
+            }
+        `}</style>
+    </Layout>
+)
 }
 
-export const getStaticPaths = async () => {
-    const res = await fetch(`${server}/api/products`)
-    const products = await res.json()
-    const ids = products.map((product) => product.productId)
-    const paths = ids.map((id) => ({ params: { id: id.toString() } }))
+export async function getServerSideProps({ query }) {
+    const id = query.id;
+    // Fetch data from external API
+    const product = await client.product.fetch(id);
+    //.then((products) => {
+    // Do something with the products
+    
+  //});
+    //const data = await res.json()
+  
+    // Pass data to the page via props
+    return { props: { product: JSON.parse(JSON.stringify(product)) } }
+  }
 
-    return {
-        paths,
-        fallback: false,
-    }
-}
-
-export default product
+export default Product
