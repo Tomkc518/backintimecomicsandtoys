@@ -21,40 +21,40 @@ const useStyles = makeStyles({
 });
 
 const products = (props) => {
-  console.log('props', props);
+  console.log("products", props.products);
   const classes = useStyles();
     return (
     <Layout menu={props.menu}>
-      <Box display="flex">
+      <Box display="flex" justifyContent="space-evenly">
         {props.products.map(product => {
           if (product.availableForSale){
             return (
               <Card className={classes.root} key={`${product.id}`}>
                 <CardActionArea>
-                <CardMedia
-                    component="img"
-                    height="300"
-                    image={`${product.images[0].src}`}
-                    title={product.title}
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                    {product.title}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                    {product.description}
-                    </Typography>
-                </CardContent>
+                  <CardMedia
+                      component="img"
+                      height="250"
+                      image={`${product.images[0].src}`}
+                      title={product.title}
+                  />
+                  <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                      {product.title}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary" component="p">
+                      {product.description}
+                      </Typography>
+                  </CardContent>
                 </CardActionArea>
                 <CardActions>
-                <Button size="small" color="primary">
-                    <Link href="/">Back</Link>
-                </Button>
-                <Button size="small" color="primary">
-                <Link href={`/products/${product.id}`}>Product Info</Link>
-                </Button>
+                  <Button size="small" color="primary">
+                      <Link href="/">Back</Link>
+                  </Button>
+                  <Button size="small" color="primary">
+                  <Link href={`/products/${product.id}`}>Product Info</Link>
+                  </Button>
                 </CardActions>
-                </Card>
+              </Card>
             )
           }
         })} 
@@ -64,38 +64,8 @@ const products = (props) => {
 }
 
 export async function getServerSideProps() {
-    // Fetch data from external API
     const products = await client.product.fetchAll();
-    //.then((products) => {
-    // Do something with the products
-    
-  //});
-    //const data = await res.json()
-  
-    // Pass data to the page via props
     return { props: { products: JSON.parse(JSON.stringify(products)) } }
   }
 
 export default products
-
-
-
-{/* <div>
-{props.products.map(product => {
-    return (
-    <Link href={`/products/${product.id}`} key={`${product.id}`}>
-        <div>
-            <p >{product.title}</p>
-            <img src={`${product.images[0].src}`} className="productImage"></img>
-            <p>{product.description}</p>
-        </div>
-    </Link>
-    )
-})}
-</div>
-<style jsx>{`
-.productImage {
-max-height: 350px;
-max-width: 350px;
-}
-`}</style> */}
