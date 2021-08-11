@@ -6,7 +6,7 @@ const Cart = () => {
 
   const [state, setState] = useState(false);
   
-  const [quantity, setQuantity] = useState([]);
+  const [quantityState, setQuantityState] = useState([]);
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -21,7 +21,8 @@ const Cart = () => {
     const cart = JSON.parse(storage.getItem("cart"));
     if(cart){
       cart.lineItems.forEach(lineItem => {
-        setQuantity(quantity => [...quantity, {
+        setQuantityState(quantityState => [...quantityState, {
+          id: lineItem.id,
           price: lineItem.variant.price,
           title: lineItem.title,
           img: lineItem.variant.image.src,
@@ -31,86 +32,63 @@ const Cart = () => {
     }
   }, [])  
 
-  // useEffect(() => {
-  //   function checkCartData() {
-  //     const storage = window.localStorage;
-  //     const cart = JSON.parse(storage.getItem("cart"));
-  //     if(cart){
-  //       cart.lineItems.forEach(lineItem => {
-  //         setQuantity(quantity => [...quantity, {
-  //           price: lineItem.variant.price,
-  //           title: lineItem.title,
-  //           img: lineItem.variant.image.src,
-  //           qty: lineItem.quantity
-  //         }])
-  //       });
-  //     }
-  //   }
+  const cartQuantityOnChange = async event => {
+    event.preventDefault()
 
-  //   checkCartData()
+    const updatedCart = [...quantityState];
+    updatedCart[event.target.dataset.idx][event.target.className] = event.target.value;
+    setQuantityState(updatedCart);
+  }
 
-  //   window.addEventListener('storage', checkCartData)
-  //   console.log('effect state', state)
-  //   return () => {
-  //     window.removeEventListener('storage', checkCartData)
-  //   }
-    
-  // }, [])
+  const updateCartQuantities = async () => {
+    event.preventDefault()
+
+    const storage = window.localStorage;
+    let checkoutId = storage.getItem('checkoutId');
+    const updatedQuantities = quantityState.map((lineItem) => {
+      return {
+        id: lineItem.id,
+        quantity: parseInt(lineItem.qty) 
+      }
+    })
+    const cart = await client.checkout.updateLineItems(checkoutId, updatedQuantities);
+    storage.setItem('cart', JSON.stringify(cart));
+  }
 
   const viewCart = () => {
-    if (typeof window !== "undefined"){
-      const storage = window.localStorage;
-      const cart = JSON.parse(storage.getItem("cart"));
-      // price - lineitems[i].variant.price
-      // title - lineitems[i].title
-      // img - lineitems[i].variant.image[i].src
-      // qty - lineitems[i].quanity
-      // price - subtotalPrice
-      console.log('veiw cart state', quantity)
-      if (cart !== null) {
-        const numberOfItems = cart.lineItems.reduce(function (accumulator, item){
+      if (quantityState.length > 0) {
+        const numberOfItems = quantityState.reduce(function (accumulator, item){
           return accumulator + item.quantity;
         }, 0)
 
-        const updateCartQuantities = async event => {
-          event.preventDefault()
-  
-          console.log('form event', event.target)
-          console.log('state', {quantity})
-        }
-        
         return (
-          <form onSubmit={updateCartQuantities}>
+          <form>
             <div>
-              {cart.lineItems.map((lineItem, idx) => {
-
+              {quantityState.map((lineItem, idx) => {
                 return (
                   <div key={lineItem.title}>
                     <div>{`${lineItem.title}`}</div>
                     <div>
-                      <img src={`${lineItem.variant.image.src}`} height='100px' width='100px'></img>
+                      <img src={`${lineItem.img}`} height='100px' width='100px'></img>
                     </div>
                     <div>
                       <label>Quantity: </label>
-                      <input id={`${lineItem.id}`} name={`${lineItem.id}`} type="number" value={quantity[lineItem.id]} data-idx={idx} />
+                      <input id={`${lineItem.id}`} name={`${lineItem.id}`} type="number" value={lineItem.qty} data-idx={idx} onChange={cartQuantityOnChange} className="qty"/>
                     </div>
                     <div>
-                    {`Price: ${lineItem.variant.price}`}
+                    {`SubTotal Price: $${lineItem.price * lineItem.qty} `}
                     </div>
                   </div>
                 )
               })}
             </div>
             <br></br>
-            <div>
-              {`Cart SubTotal Price: ${cart.subtotalPrice}`}
-            </div>
-            <button type="submit">Update Quantities</button>
+            <button onClick={updateCartQuantities}>Update Quantities</button>
+            <br></br>
+            <button type="submit">Checkout</button>
           </form>
         )
       }
-      }
-      
   }
 
   return (

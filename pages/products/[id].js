@@ -35,6 +35,7 @@ const Product = (props) => {
     ]);
     storage.setItem('cart', JSON.stringify(cart));
     handleClick();
+    window.location.reload();
   };
   
   return (
