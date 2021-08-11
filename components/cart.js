@@ -19,14 +19,16 @@ const Cart = () => {
   useEffect(() => {
     const storage = window.localStorage;
     const cart = JSON.parse(storage.getItem("cart"));
-    cart.lineItems.forEach(lineItem => {
-      setQuantity(quantity => [...quantity, {
-        price: lineItem.variant.price,
-        title: lineItem.title,
-        img: lineItem.variant.image.src,
-        qty: lineItem.quantity
-      }])
-    });
+    if(cart){
+      cart.lineItems.forEach(lineItem => {
+        setQuantity(quantity => [...quantity, {
+          price: lineItem.variant.price,
+          title: lineItem.title,
+          img: lineItem.variant.image.src,
+          qty: lineItem.quantity
+        }])
+      });
+    }
   }, [])  
 
   // useEffect(() => {
