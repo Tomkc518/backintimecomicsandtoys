@@ -10,12 +10,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Client from 'shopify-buy/index.unoptimized.umd';
-
-const clientExtended = Client.buildClient({
-  domain: 'back-in-time-comics-toys.myshopify.com',
-  storefrontAccessToken: '2ef3445070a263a260c0f82cebbff07a'
-});
 
 const useStyles = makeStyles({
   root: {
@@ -69,30 +63,9 @@ const products = (props) => {
 }
 
 export async function getServerSideProps() {
-    const products = await client.product.fetchAll();
+  const products = await client.product.fetchAll();
 
-    const productsQuery = clientExtended.graphQLClient.query((root) => {
-      root.addConnection('products', {args: {first: 10}}, (product) => {
-        product.add('title');
-        product.add('tags');// Add fields to be returned
-        product.add('totalInventory');
-      });
-    });
-    
-    // Call the send method with the custom products query
-    const productData = await clientExtended.graphQLClient.send(productsQuery).then(({model, data}) => {
-      // Do something with the products
-      //const result = data.products.edges.filter(edge => edge.tag === 'Bag');
-      //const result = data.products.edges.filter(edge => edge.node.tags.some(tag => tag === 'Pokemon'));
-      //const tagsSearch = ['Pokemon'];
-      //const result = data.products.edges.filter(edge => tagsSearch.includes(edge.node.tags));
-      //const result = data.products.edges.filter(edge => edge.node.tags.some(tag => tagsSearch.indexOf(tag) >= 0));
-      //console.log("result", JSON.stringify(result));
-      //productData = JSON.stringify(data);
-      return JSON.stringify(data);
-    });
-
-    return { props: { products: JSON.parse(JSON.stringify(products)), productData: productData } }
-  }
+  return { props: { products: JSON.parse(JSON.stringify(products))} }
+}
 
 export default products

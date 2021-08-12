@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router'
 import Drawer from '@material-ui/core/Drawer';
 import { client } from "../utils/shopify";
 
 const Cart = () => {
+
+  const router = useRouter();
 
   const [state, setState] = useState(false);
   
@@ -40,9 +43,8 @@ const Cart = () => {
     setQuantityState(updatedCart);
   }
 
-  const updateCartQuantities = async () => {
+  const updateCartQuantities = async event => {
     event.preventDefault()
-
     const storage = window.localStorage;
     let checkoutId = storage.getItem('checkoutId');
     const updatedQuantities = quantityState.map((lineItem) => {
@@ -55,11 +57,20 @@ const Cart = () => {
     storage.setItem('cart', JSON.stringify(cart));
   }
 
+  const checkout = event => {
+    event.preventDefault()
+    const storage = window.localStorage
+    const cart = JSON.parse(storage.getItem("cart"))
+    router.replace(cart.webUrl)
+    storage.removeItem("cart");
+    storage.removeItem("checkoutId");
+  }
+
   const viewCart = () => {
       if (quantityState.length > 0) {
-        const numberOfItems = quantityState.reduce(function (accumulator, item){
-          return accumulator + item.quantity;
-        }, 0)
+        // const numberOfItems = quantityState.reduce(function (accumulator, item){
+        //   return accumulator + item.quantity;
+        // }, 0)
 
         return (
           <form>
@@ -85,10 +96,16 @@ const Cart = () => {
             <br></br>
             <button onClick={updateCartQuantities}>Update Quantities</button>
             <br></br>
-            <button type="submit">Checkout</button>
+            <button onClick={checkout}>Checkout</button>
           </form>
         )
       }
+
+      return (
+        <div>
+          please add an item to your cart
+        </div>
+      )
   }
 
   return (
