@@ -31,6 +31,11 @@ const Home = (props) => {
   return (
     <Layout menu={props.menu}>
       {/* <SliceZone {...props} resolver={resolver} />; */}
+      <img src="/images/logo.png" height="400px" width="600px" />
+      <h2>Welcome to Back in Time Comics and Toys</h2>
+      <p>With over 30 years of experience in the collecting field and 20 years of buying, selling, &amp; trading experience. </p>
+      <p>Sunday 11-5, m-f 11-6, Saturday 11-7</p>
+      <h1>Top Products</h1>
       <Box display="flex" justifyContent="space-evenly">
         {props.products.map(product => {
           if (product.availableForSale){
@@ -82,7 +87,6 @@ const Home = (props) => {
 export async function getServerSideProps() {
   const collectionId = "Z2lkOi8vc2hvcGlmeS9Db2xsZWN0aW9uLzI3MTU2Nzc0OTMyOA=="
   const topProductCollection = await client.collection.fetchWithProducts(collectionId);
-  //console.log('topProductCollection', JSON.stringify(topProductCollection))
 
   return { props: { products: JSON.parse(JSON.stringify(topProductCollection.products))} }
 }
