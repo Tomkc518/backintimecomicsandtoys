@@ -36,7 +36,7 @@ const Home = (props) => {
         direction="column"
         justifyContent="center"
         alignItems="center">
-      <img src="/images/logo.png" height="400px" width="600px" />
+      <img src="/images/logo_black.png" height="400px" width="600px" />
       <h2>Welcome to Back in Time Comics and Toys</h2>
       <p>With over 30 years of experience in the collecting field and 20 years of buying, selling, &amp; trading experience. </p>
       <p>Sunday 11-5, M-F 11-6, Saturday 11-7</p>
