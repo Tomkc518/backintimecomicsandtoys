@@ -35,15 +35,18 @@ const products = (props) => {
   const [productsState, setProductsState] = useState(props.products);
 
   const handleFilters = (filters) => {
-    const results = props.tags.filter(edge => edge.node.tags.some(tag => filters.indexOf(tag) >= 0));
-    console.log("filtered results", results);
-    let resultIds = [];
-    results.forEach(result => {
-      resultIds.push(result.node.id)
-    });
-    console.log("resultids", resultIds)
-    const filteredProducts = productsState.filter(product => resultIds.some(id => product.id === id));
-    console.log("filteredProducts", filteredProducts);
+    if(filters.length > 0){
+      const results = props.tags.filter(edge => edge.node.tags.some(tag => filters.indexOf(tag) >= 0));
+      let resultIds = [];
+      results.forEach(result => {
+        resultIds.push(result.node.id)
+      });
+      const currentProductsState = props.products;
+      const filteredProducts = currentProductsState.filter(product => resultIds.some(id => product.id === id));
+      setProductsState(filteredProducts);
+    } else {
+      setProductsState(props.products)
+    }
   }
 
   return (
