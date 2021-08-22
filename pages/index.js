@@ -44,37 +44,7 @@ const Home = (props) => {
       <p>(816) 429-7004</p>
       <h1>Top Products</h1>
       </Grid>
-      <Box display="flex" justifyContent="space-evenly">
-        {props.products.map(product => {
-          if (product.availableForSale){
-            return (
-              <Card className={classes.root} key={`${product.id}`}>
-                <CardActionArea>
-                  <CardMedia
-                      component="img"
-                      height="250"
-                      image={`${product.images[0].src}`}
-                      title={product.title}
-                  />
-                  <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                      {product.title}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary" component="p">
-                      {product.description}
-                      </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button size="small" color="primary">
-                  <Link href={`/products/${product.id}`}>Product Info</Link>
-                  </Button>
-                </CardActions>
-              </Card>
-            )
-          }
-        })} 
-      </Box>
+      <TopProducts topProducts={props.topProducts}/>
     </Layout>
   );
 };
@@ -93,7 +63,7 @@ export async function getServerSideProps() {
   const collectionId = "Z2lkOi8vc2hvcGlmeS9Db2xsZWN0aW9uLzI3MTU2Nzc0OTMyOA=="
   const topProductCollection = await client.collection.fetchWithProducts(collectionId);
 
-  return { props: { products: JSON.parse(JSON.stringify(topProductCollection.products))} }
+  return { props: { topProducts: JSON.parse(JSON.stringify(topProductCollection.products))} }
 }
 
 export default Home;

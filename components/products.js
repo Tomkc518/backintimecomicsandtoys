@@ -18,11 +18,11 @@ const useStyles = makeStyles({
   },
 });
 
-const TopProducts = ({topProducts}) => {
+const Products = ({products}) => {
   const classes = useStyles();
     return (
       <Box display="flex" justifyContent="space-evenly">
-      {topProducts.map(product => {
+      {products.map(product => {
           if (product.availableForSale){
           return (
             <Card className={classes.root} key={`${product.id}`}>
@@ -54,4 +54,4 @@ const TopProducts = ({topProducts}) => {
       </Box>
     )
 }
-export default TopProducts
+export default Products
