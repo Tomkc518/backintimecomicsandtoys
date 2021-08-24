@@ -79,13 +79,24 @@ export async function getServerSideProps() {
     // Do something with the products
     //const result = data.products.edges.filter(edge => edge.tag === 'Bag');
     //const result = data.products.edges.filter(edge => edge.node.tags.some(tag => tag === 'Pokemon'));
-    const tagsSearch = ['Pokemon'];
+    //const tagsSearch = ['Pokemon'];
     //const result = data.products.edges.filter(edge => tagsSearch.includes(edge.node.tags));
     //const result = data.products.edges.filter(edge => edge.node.tags.some(tag => tagsSearch.indexOf(tag) >= 0));
     //console.log("result", JSON.stringify(result));
     //productData = JSON.stringify(data);
     return JSON.parse(JSON.stringify(data.products.edges));
   });
+
+  const tagQuery = clientExtended.graphQLClient.query((root) => {
+    root.addConnection('productTags', {args: {first: 100}}, (tag) => {
+    });
+  });
+
+  const tagData = await clientExtended.graphQLClient.send(tagQuery).then(({model, data}) => {
+    return model.productTags;
+  });
+
+  console.log('tag Data', JSON.parse(JSON.stringify(tagData)));
 
   return { props: { products: JSON.parse(JSON.stringify(products)), tags: productData} }
 }
