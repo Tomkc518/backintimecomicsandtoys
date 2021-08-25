@@ -23,23 +23,37 @@ const WhiteInput = withStyles({
 })((props) => <Input color="default" {...props} />);
 
 const SearchFilter = (props) => {
-  const [search, setSearch] = useState('');
   const classes = useStyles();
 
   const handleChange = (event) => {
-    setSearch(event.target.value);
-
-    //props.handleSearchFilter(search)
-    handler();
+    const searchTerms = event.target.value
+    if (searchTerms.length > 2){
+      props.handleSearchFilter(searchTerms)
+    }
   };
 
-  const searchFunction = () => {
-    console.log('search', search);
-    props.handleSearchFilter(search);
-    console.log('search happened')
-  }
+  // const searchFunction = value => {
+  //   console.log('search', value);
+  //   props.handleSearchFilter(value);
+  //   console.log('search happened')
+  //   setSearch('')
+  // }
 
-  const handler = useCallback(debounce(searchFunction, 2000), []);
+  //const handler = useCallback(debounce((value => searchFunction(value)), 2000), []);
+
+  //const [dbValue, saveToDb] = usetState('');
+
+  // const debouncedSave = useCallback(
+  //   debounce(nextValue => saveToDb(nextValue), 1000),
+  //   []
+  // )
+
+  // const handleChange = event => {
+  //   const {value: nextValue } = event.target;
+  //   setSearch(nextValue);
+
+  //   debounce(nextValue);
+  //}
 
     return (
       <form className={classes.root} noValidate autoComplete="off">
