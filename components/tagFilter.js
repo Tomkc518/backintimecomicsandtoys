@@ -16,14 +16,14 @@ const GreenCheckbox = withStyles({
   checked: {},
 })((props) => <Checkbox color="default" {...props} />);
 
-const Filter = (props) => {
-    const intialTags = [];
-    props.tags.forEach(tag => {
-        intialTags.push(tag.node.tags)
-    });
-    const combinedtagList = [].concat.apply([], intialTags);
-    const tagList = [...new Set(combinedtagList)];
-    const [tagsState, setTagsState] = useState(tagList);
+const TagFilter = (props) => {
+    // const intialTags = [];
+    // props.tags.forEach(tag => {
+    //     intialTags.push(tag.node.tags)
+    // });
+    // const combinedtagList = [].concat.apply([], intialTags);
+    // const tagList = [...new Set(combinedtagList)];
+    const [tagsState, setTagsState] = useState(props.tags);
     const [checked, setChecked] = useState([]);
     //console.log('tagsState', tagsState)
 
@@ -38,7 +38,7 @@ const Filter = (props) => {
       }
       setChecked(newChecked);
 
-      props.handleFilters(newChecked);
+      props.handleTagFilters(newChecked);
     }
 
     return (
@@ -63,4 +63,4 @@ const Filter = (props) => {
     )
 }
 
-export default Filter
+export default TagFilter
