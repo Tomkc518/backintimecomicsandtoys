@@ -1,20 +1,11 @@
 import { client } from "../../utils/shopify";
 import Layout from '../../components/layout'
-import Link from 'next/link'
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import Products from "../../components/products";
 import Grid from '@material-ui/core/Grid';
 import TagFilter from "../../components/tagFilter";
 import Client from 'shopify-buy/index.unoptimized.umd';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SearchFilter from "../../components/searchFilter";
 
 const clientExtended = Client.buildClient({
@@ -32,9 +23,10 @@ const clientExtended = Client.buildClient({
 // });
 
 const products = (props) => {
+  //console.log('products', props.products)
   //const classes = useStyles();
   const [productsState, setProductsState] = useState(props.products);
-
+  
   const handleTagFilters = async (filters) => {
     if(filters.length > 0){
       // const results = props.tags.filter(edge => edge.node.tags.some(tag => filters.indexOf(tag) >= 0));
@@ -46,7 +38,7 @@ const products = (props) => {
       // const filteredProducts = currentProductsState.filter(product => resultIds.some(id => product.id === id));
 
       const filterQuery = filters.join(" AND ");
-      const filteredProducts = await client.product.fetchQuery({query: filterQuery});
+      const filteredProducts = await client.product.fetchQuery({query: `tag:${filterQuery}`});
 
       //console.log('filteredProducts', JSON.parse(JSON.stringify(filteredProducts)))
       
@@ -57,9 +49,24 @@ const products = (props) => {
   }
 
   const handleSearchFilter = async (search) => {
-    console.log("search criteria", search);
-    const searchedProducts = await client.product.fetchQuery({query: search})
+    //console.log("search criteria", search);
+    const searchedProducts = await client.product.fetchQuery({query: `title:${search}*`})
     setProductsState(searchedProducts);
+  }
+
+  const loadNextPage = async () => {
+    const products = await client.product.fetchAll();
+    const nextPageOfProducts = await client.fetchNextPage(products)
+    const results = JSON.parse(JSON.stringify(nextPageOfProducts.model))
+    //console.log('results', results)
+    //console.log('productsstate', productsState)
+    //console.log('products', props.products)
+    setProductsState(results);
+    //const lastProduct = productsState[productsState.length - 1]
+    //const nextPage = await client.product.fetchQuery({query: `after:${lastProduct}`})
+    //console.log('nextpage', nextPage);
+    //const productInfo = await client.product.fetchQuery({first: 20})
+    //console.log('productInfo', productInfo);
   }
 
   return (
@@ -69,17 +76,28 @@ const products = (props) => {
         <SearchFilter handleSearchFilter={search => handleSearchFilter(search)}/>
         <TagFilter tags={props.tags} handleTagFilters={filters => handleTagFilters(filters)}/>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={9}>
         <Products products={productsState}/>
       </Grid>
     </Grid>
+    <Grid container justifyContent="flex-end" spacing={3}>
+      <Grid item xs={2}>
+        {
+          props.products[productsState.length - 1].hasNextPage === true &&
+            <Button variant="contained" onClick={loadNextPage}>
+              Load Next Page
+            </Button>
+        }
+      </Grid>
+      </Grid>
   </Layout>
   )
 }
 
 export async function getServerSideProps() {
   const products = await client.product.fetchAll();
-
+  //const nextPage = await client.fetchNextPage(products);
+  //console.log('nextpage', nextPage);
   // const productsQuery = clientExtended.graphQLClient.query((root) => {
   //   root.addConnection('products', {args: {first: 10}}, (product) => {
   //     product.add('title');
