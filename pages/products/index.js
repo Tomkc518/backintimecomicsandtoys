@@ -55,18 +55,69 @@ const products = (props) => {
   }
 
   const loadNextPage = async () => {
-    const products = await client.product.fetchAll();
-    const nextPageOfProducts = await client.fetchNextPage(products)
-    const results = JSON.parse(JSON.stringify(nextPageOfProducts.model))
+    //const products = await client.product.fetchAll();
+    //const nextPageOfProducts = await client.fetchNextPage(products)
+    //const results = JSON.parse(JSON.stringify(nextPageOfProducts.model))
     //console.log('results', results)
     //console.log('productsstate', productsState)
     //console.log('products', props.products)
-    setProductsState(results);
+    //setProductsState(results);
     //const lastProduct = productsState[productsState.length - 1]
     //const nextPage = await client.product.fetchQuery({query: `after:${lastProduct}`})
     //console.log('nextpage', nextPage);
     //const productInfo = await client.product.fetchQuery({first: 20})
     //console.log('productInfo', productInfo);
+
+    const productsQuery = clientExtended.graphQLClient.query((root) => {
+    root.addConnection('products', {args: {first: 20}}, (product) => {
+      //product.add('title');
+      //product.add('description');
+      //product.add('featuredImage');
+      //product.add('tags');// Add fields to be returned
+      // product.add('totalInventory');
+      //product.add('node');
+    });
+  });
+  
+  // Call the send method with the custom products query
+  const productData = await clientExtended.graphQLClient.send(productsQuery).then(({model, data}) => {
+    // Do something with the products
+    //const result = data.products.edges.filter(edge => edge.tag === 'Bag');
+    //const result = data.products.edges.filter(edge => edge.node.tags.some(tag => tag === 'Pokemon'));
+    //const tagsSearch = ['Pokemon'];
+    //const result = data.products.edges.filter(edge => tagsSearch.includes(edge.node.tags));
+    //const result = data.products.edges.filter(edge => edge.node.tags.some(tag => tagsSearch.indexOf(tag) >= 0));
+    //console.log("result", JSON.stringify(result));
+    //productData = JSON.stringify(data);
+    //return JSON.parse(JSON.stringify(data));
+    //console.log('data', JSON.parse(JSON.stringify(data)));
+    //console.log('model',JSON.parse(JSON.stringify(model)))
+    return JSON.parse(JSON.stringify(data.products.edges))
+  });
+
+  const nextPageQuery = clientExtended.graphQLClient.query((root) => {
+    root.addConnection('products', {args: {first: 20, after: `${productData[productData.length -1].cursor}`}}, (product) => {
+
+    })
+  })
+  //console.log("productsState", productsState);
+  const nextPageData = await clientExtended.graphQLClient.send(nextPageQuery).then(({model, data}) => {
+    //console.log('model',JSON.parse(JSON.stringify(model)))
+    return JSON.parse(JSON.stringify(model.products))
+  })
+  const ids = [];
+  nextPageData.forEach(data => {
+    ids.push(data.id)
+  });
+  //console.log('ids', ids)
+  // console.log('cursor data', productData[productData.length -1].cursor);
+  // //console.log('productData', productData);
+  // await client.product.fetchQuery({first: 20, query:`after:${productData[productData.length -1].cursor}`}).then((products) => {
+  //   console.log('results', products);
+  // })
+  //console.log("searchedProducts", searchedProducts)
+  const nextProducts = await client.product.fetchMultiple(ids);
+  setProductsState(nextProducts);
   }
 
   return (
@@ -96,8 +147,7 @@ const products = (props) => {
 
 export async function getServerSideProps() {
   const products = await client.product.fetchAll();
-  //const nextPage = await client.fetchNextPage(products);
-  //console.log('nextpage', nextPage);
+
   // const productsQuery = clientExtended.graphQLClient.query((root) => {
   //   root.addConnection('products', {args: {first: 10}}, (product) => {
   //     product.add('title');
