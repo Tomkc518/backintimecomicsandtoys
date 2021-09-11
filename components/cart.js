@@ -68,10 +68,6 @@ const Cart = () => {
 
   const viewCart = () => {
       if (quantityState.length > 0) {
-        // const numberOfItems = quantityState.reduce(function (accumulator, item){
-        //   return accumulator + item.quantity;
-        // }, 0)
-
         return (
           <form>
             <div>

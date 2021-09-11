@@ -19,11 +19,7 @@ const products = (props) => {
   const handleTagFilters = async (filters) => {
     if(filters.length > 0){
 
-      let filter = filters;
-
-      if(filters.length > 1){
-        filter = filters.join(" AND ");
-      }
+      const filter = filters.join(" AND ");
 
       const filterQuery = clientExtended.graphQLClient.query((root) => {
         root.addConnection('products', {args: {first: 20, query: `tag:${filter}`}}, (product) => {
@@ -52,12 +48,30 @@ const products = (props) => {
   }
 
   const handleSearchFilter = async (search) => {
-    const searchedProducts = await client.product.fetchQuery({query: `title:${search}*`})
-    setProductsState(searchedProducts);
+    const searchQuery = clientExtended.graphQLClient.query((root) => {
+      root.addConnection('products', {args: {first: 20, query: `title:${search}*`}}, (product) => {
+        product.add('title');
+        product.add('availableForSale');
+        product.add('description');
+        product.addConnection('variants', {args: {first: 10}}, (variant) => {
+          variant.add('image', image => {
+            image.add("originalSrc")
+          });
+          variant.add('priceV2', price => {
+            price.add('amount')
+          });
+        })
+      })
+    })
+
+    const searchedData = await clientExtended.graphQLClient.send(searchQuery).then(({model, data}) => {
+      return JSON.parse(JSON.stringify(data.products))
+    })
+    console.log('searchfilter is called');
+    setProductsState(searchedData);
   }
 
   const loadNextPage = async () => {
-
     const nextPageQuery = clientExtended.graphQLClient.query((root) => {
       root.addConnection('products', {args: {first: 20, after: `${productsState.edges[productsState.edges.length -1].cursor}`}}, (product) => {
         product.add('title');
@@ -83,7 +97,6 @@ const products = (props) => {
   }
 
   const loadPreviousPage = async () => {
-
     const previousPageQuery = clientExtended.graphQLClient.query((root) => {
       root.addConnection('products', {args: {last: 20, before: `${productsState.edges[0].cursor}`}}, (product) => {
         product.add('title');

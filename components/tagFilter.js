@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -17,15 +17,8 @@ const GreenCheckbox = withStyles({
 })((props) => <Checkbox color="default" {...props} />);
 
 const TagFilter = (props) => {
-    // const intialTags = [];
-    // props.tags.forEach(tag => {
-    //     intialTags.push(tag.node.tags)
-    // });
-    // const combinedtagList = [].concat.apply([], intialTags);
-    // const tagList = [...new Set(combinedtagList)];
     const [tagsState, setTagsState] = useState(props.tags);
     const [checked, setChecked] = useState([]);
-    //console.log('tagsState', tagsState)
 
     const handleChecked = (tag) => {
       const currentIndex = checked.indexOf(tag);
@@ -48,10 +41,7 @@ const TagFilter = (props) => {
             <FormControlLabel
               control={
                 <GreenCheckbox
-                  //checked={state.checkedB}
                   onChange={() => handleChecked(tag)}
-                  //name="checkedB"
-                  //color="primary"
                 />
               }
               label={tag}
