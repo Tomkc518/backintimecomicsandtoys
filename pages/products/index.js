@@ -15,14 +15,37 @@ const clientExtended = Client.buildClient({
 
 const products = (props) => {
   const [productsState, setProductsState] = useState(props.products);
-  console.log('productsState', productsState);
+
   const handleTagFilters = async (filters) => {
     if(filters.length > 0){
 
-      const filterQuery = filters.join(" AND ");
-      const filteredProducts = await client.product.fetchQuery({query: `tag:${filterQuery}`});
+      let filter = filters;
 
-      setProductsState(filteredProducts);
+      if(filters.length > 1){
+        filter = filters.join(" AND ");
+      }
+
+      const filterQuery = clientExtended.graphQLClient.query((root) => {
+        root.addConnection('products', {args: {first: 20, query: `tag:${filter}`}}, (product) => {
+          product.add('title');
+          product.add('availableForSale');
+          product.add('description');
+          product.addConnection('variants', {args: {first: 10}}, (variant) => {
+            variant.add('image', image => {
+              image.add("originalSrc")
+            });
+            variant.add('priceV2', price => {
+              price.add('amount')
+            });
+          })
+        })
+      })
+
+      const filteredData = await clientExtended.graphQLClient.send(filterQuery).then(({model, data}) => {
+        return JSON.parse(JSON.stringify(data.products))
+      })
+  
+      setProductsState(filteredData);
     } else {
       setProductsState(props.products)
     }
@@ -34,13 +57,6 @@ const products = (props) => {
   }
 
   const loadNextPage = async () => {
-    // const productsQuery = clientExtended.graphQLClient.query((root) => {
-    //   root.addConnection('products', {args: {first: 20}}, (product) => {});
-    // });
-  
-    // const productData = await clientExtended.graphQLClient.send(productsQuery).then(({model, data}) => {
-    //   return JSON.parse(JSON.stringify(data.products.edges))
-    // });
 
     const nextPageQuery = clientExtended.graphQLClient.query((root) => {
       root.addConnection('products', {args: {first: 20, after: `${productsState.edges[productsState.edges.length -1].cursor}`}}, (product) => {
@@ -62,12 +78,34 @@ const products = (props) => {
       return JSON.parse(JSON.stringify(data.products))
     })
 
-    // const ids = [];
-    // nextPageData.forEach(data => {
-    //   ids.push(data.id)
-    // });
-    // const nextProducts = await client.product.fetchMultiple(ids);
     setProductsState(nextPageData);
+    window.scrollTo(0, 0);
+  }
+
+  const loadPreviousPage = async () => {
+
+    const previousPageQuery = clientExtended.graphQLClient.query((root) => {
+      root.addConnection('products', {args: {last: 20, before: `${productsState.edges[0].cursor}`}}, (product) => {
+        product.add('title');
+        product.add('availableForSale');
+        product.add('description');
+        product.addConnection('variants', {args: {first: 10}}, (variant) => {
+          variant.add('image', image => {
+            image.add("originalSrc")
+          });
+          variant.add('priceV2', price => {
+            price.add('amount')
+          });
+        })
+      })
+    })
+
+    const previousPageData = await clientExtended.graphQLClient.send(previousPageQuery).then(({model, data}) => {
+      return JSON.parse(JSON.stringify(data.products))
+    })
+
+    setProductsState(previousPageData);
+    window.scrollTo(0, 0);
   }
 
   return (
@@ -82,6 +120,14 @@ const products = (props) => {
       </Grid>
     </Grid>
     <Grid container justifyContent="flex-end" spacing={3}>
+    <Grid item xs={2}>
+        {
+          productsState.pageInfo.hasPreviousPage === true &&
+            <Button variant="contained" onClick={loadPreviousPage}>
+              Load Previous Page
+            </Button>
+        }
+      </Grid>
       <Grid item xs={2}>
         {
           productsState.pageInfo.hasNextPage === true &&
@@ -114,8 +160,6 @@ export async function getServerSideProps() {
   });
 
   const products = await clientExtended.graphQLClient.send(productsQuery).then(({model, data}) => {
-  //console.log("proucts model", JSON.parse(JSON.stringify(model)));
-  //console.log("product data", JSON.parse(JSON.stringify(data.products)));
   return JSON.parse(JSON.stringify(data.products))
   });
 
