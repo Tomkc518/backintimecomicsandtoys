@@ -22,23 +22,23 @@ const Products = ({products}) => {
     return (
       <Box display="flex" flexWrap="wrap" justifyContent="space-evenly" >
       {products.map(product => {
-          if (product.availableForSale){
+          if (product.node.availableForSale){
           return (
-            <Link href={`/products/${product.id}`} key={`${product.id}`}>
+            <Link href={`/products/${product.node.id}`} key={`${product.node.id}`}>
               <Card className={classes.root}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
                         height="250"
-                        image={`${product.images[0].src}`}
-                        title={product.title}
+                        image={`${product.node.variants.edges[0].node.image.originalSrc}`}
+                        title={product.node.title}
                     />
                     <CardContent>
                         <Typography gutterBottom variant="h6" component="h6">
-                          {product.title} 
+                          {product.node.title} 
                         </Typography>
                         <Typography>
-                          ${product.variants[0].price}
+                          ${product.node.variants.edges[0].node.priceV2.amount}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
