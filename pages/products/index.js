@@ -8,6 +8,9 @@ import Client from 'shopify-buy/index.unoptimized.umd';
 import { useState } from 'react';
 import SearchFilter from "../../components/searchFilter";
 
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 const clientExtended = Client.buildClient({
   domain: 'back-in-time-comics-toys.myshopify.com',
   storefrontAccessToken: '2ef3445070a263a260c0f82cebbff07a'
@@ -120,6 +123,10 @@ const products = (props) => {
     setProductsState(previousPageData);
     window.scrollTo(0, 0);
   }
+
+  const theme = useTheme();
+
+  const isMatch = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
   <Layout menu={props.menu}>
