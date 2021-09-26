@@ -4,6 +4,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 
 import { useTheme } from '@mui/material/styles';
@@ -22,7 +23,16 @@ const GreenCheckbox = withStyles({
   checked: {},
 })((props) => <Checkbox color="default" {...props} />);
 
+const useStyles = makeStyles({
+  paper: {
+    background: "#121212",
+    color: "rgba(255, 255, 255, 0.87)"
+  }
+});
+
 const TagFilter = (props) => {
+    const classes = useStyles();
+
     const [tagsState, setTagsState] = useState(props.tags
     //   () => {
     //   let listofTags = [];
@@ -78,7 +88,9 @@ const TagFilter = (props) => {
         <>
         <Drawer
         open={openDrawer}
-        onClose={() => setOpenDrawer(false)}>
+        onClose={() => setOpenDrawer(false)}
+        classes={{paper: classes.paper}}
+        >
           <FormGroup>
             {tagsState.map(tag => {
               return (

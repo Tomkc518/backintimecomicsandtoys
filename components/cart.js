@@ -2,8 +2,18 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import Drawer from '@material-ui/core/Drawer';
 import { client } from "../utils/shopify";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  paper: {
+    background: "#121212",
+    color: "rgba(255, 255, 255, 0.87)"
+  }
+});
 
 const Cart = () => {
+
+  const classes = useStyles();
 
   const router = useRouter();
 
@@ -73,8 +83,8 @@ const Cart = () => {
             <div>
               {quantityState.map((lineItem, idx) => {
                 return (
-                  <div key={lineItem.title}>
-                    <div>{`${lineItem.title}`}</div>
+                  <div key={lineItem.title} style={{marginBottom: 30}}>
+                    <div style={{width: 300}}>{`${lineItem.title}`}</div>
                     <div>
                       <img src={`${lineItem.img}`} height='100px' width='100px'></img>
                     </div>
@@ -107,7 +117,7 @@ const Cart = () => {
   return (
     <>
     <button onClick={toggleDrawer(true)}>Cart</button>
-    <Drawer anchor='right' open={state} onClose={toggleDrawer(false)}>
+    <Drawer anchor='right' open={state} onClose={toggleDrawer(false)} classes={{paper: classes.paper}}>
       {viewCart()}
     </Drawer>
     </>
