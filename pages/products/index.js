@@ -1,4 +1,3 @@
-import { client } from "../../utils/shopify";
 import Layout from '../../components/layout'
 import Button from '@material-ui/core/Button';
 import Products from "../../components/products";
@@ -130,33 +129,33 @@ const products = (props) => {
 
   return (
   <Layout menu={props.menu}>
-    <Grid container spacing={2} justifyContent="center">
+    <Grid container spacing={1} justifyContent="center">
       <Grid item xs={2}>
         <SearchFilter handleSearchFilter={search => handleSearchFilter(search)}/>
         <TagFilter tags={props.tags} handleTagFilters={filters => handleTagFilters(filters)}/>
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={8}>
         <Products products={productsState.edges}/>
       </Grid>
-    </Grid>
-    <Grid container justifyContent="flex-end" spacing={3}>
-    <Grid item xs={2}>
+    {/* </Grid> */}
+    {/* <Grid container justifyContent="center" spacing={3}> */}
+    <Grid item xs={4}>
         {
           productsState.pageInfo.hasPreviousPage === true &&
             <Button variant="contained" onClick={loadPreviousPage}>
-              Load Previous Page
+              Previous
             </Button>
         }
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={4}>
         {
           productsState.pageInfo.hasNextPage === true &&
             <Button variant="contained" onClick={loadNextPage}>
-              Load Next Page
+              Next
             </Button>
         }
       </Grid>
-      </Grid>
+    </Grid>
   </Layout>
   )
 }

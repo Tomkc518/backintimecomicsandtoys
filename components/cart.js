@@ -4,7 +4,6 @@ import Drawer from '@material-ui/core/Drawer';
 import { client } from "../utils/shopify";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@mui/material/Button';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const useStyles = makeStyles({
   paper: {
@@ -118,7 +117,7 @@ const Cart = () => {
 
   return (
     <>
-    <Button onClick={toggleDrawer(true)}>Cart</Button>
+    <Button onClick={toggleDrawer(true)} style={{color: 'white'}}>Cart</Button>
     <Drawer anchor='right' open={state} onClose={toggleDrawer(false)} classes={{paper: classes.paper}}>
       {viewCart()}
     </Drawer>

@@ -1,5 +1,4 @@
 import Drawer from '@mui/material/Drawer';
-import TagFilter from './tagFilter';
 import { useState } from 'react';
 
 const DrawerComponent = (props) => {
