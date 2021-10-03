@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import Drawer from '@material-ui/core/Drawer';
 import { client } from "../utils/shopify";
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const useStyles = makeStyles({
   paper: {
@@ -116,7 +118,7 @@ const Cart = () => {
 
   return (
     <>
-    <button onClick={toggleDrawer(true)}>Cart</button>
+    <Button onClick={toggleDrawer(true)}>Cart</Button>
     <Drawer anchor='right' open={state} onClose={toggleDrawer(false)} classes={{paper: classes.paper}}>
       {viewCart()}
     </Drawer>

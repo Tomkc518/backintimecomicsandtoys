@@ -12,30 +12,10 @@ const Layout = ({ children, menu }) => {
 
     return (
         <div>
-            {/* <Head>
+            <Head>
                 <title> Back in Time Comics and Toys </title>
             </Head>
-            <Header menu={menu}/> */}
-            <Grid container spacing={8} justifyContent="flex-start" direction="row">
-              <Grid item xs>
-              <Box
-                sx={{
-                  // display: 'flex',
-                  // flexWrap: 'wrap',
-                  // justifyContent: 'left',
-                  typography: 'body1',
-                  '& > :not(style) + :not(style)': {
-                    ml: 2,
-                  },
-                }}
-              >
-                <Link href="/" underline="none" color="inherit">Home</Link>
-                <Link href="/products" underline="none" color="inherit">Shop</Link>
-                <Link href="https://www.ebay.com/str/btcomics" underline="none" color="inherit">Ebay</Link>
-                <Cart />
-              </Box>
-              </Grid>
-            </Grid>
+            <Header />
             
             <main>{children}</main>
         </div>
