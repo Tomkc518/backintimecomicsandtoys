@@ -117,7 +117,7 @@ const Cart = () => {
 
   return (
     <>
-    <Button onClick={toggleDrawer(true)} style={{color: 'white'}}>Cart</Button>
+    <Button onClick={toggleDrawer(true)} style={{color: 'rgba(255, 255, 255, 0.87)'}}>Cart</Button>
     <Drawer anchor='right' open={state} onClose={toggleDrawer(false)} classes={{paper: classes.paper}}>
       {viewCart()}
     </Drawer>

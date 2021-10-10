@@ -1,5 +1,4 @@
 import Layout from '../../components/layout'
-import Button from '@material-ui/core/Button';
 import Products from "../../components/products";
 import Grid from '@material-ui/core/Grid';
 import TagFilter from "../../components/tagFilter";
@@ -135,25 +134,7 @@ const products = (props) => {
         <TagFilter tags={props.tags} handleTagFilters={filters => handleTagFilters(filters)}/>
       </Grid>
       <Grid item xs={8}>
-        <Products products={productsState.edges}/>
-      </Grid>
-    {/* </Grid> */}
-    {/* <Grid container justifyContent="center" spacing={3}> */}
-    <Grid item xs={4}>
-        {
-          productsState.pageInfo.hasPreviousPage === true &&
-            <Button variant="contained" onClick={loadPreviousPage}>
-              Previous
-            </Button>
-        }
-      </Grid>
-      <Grid item xs={4}>
-        {
-          productsState.pageInfo.hasNextPage === true &&
-            <Button variant="contained" onClick={loadNextPage}>
-              Next
-            </Button>
-        }
+        <Products products={productsState.edges} productsState={productsState} loadNextPage={loadNextPage} loadPreviousPage={loadPreviousPage}/>
       </Grid>
     </Grid>
   </Layout>
